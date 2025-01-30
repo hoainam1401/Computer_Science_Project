@@ -1,6 +1,6 @@
-import pygame
 import sys
 
+import pygame
 from checkers.constants import GREEN, HEIGHT, SQUARE_SIZE, WIDTH
 from checkers.game import Game
 from minimax.algorithm import minimax
