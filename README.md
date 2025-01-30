@@ -14,3 +14,6 @@ This was made using the Pygame library and OOP.
 
 ## SinglePlayer
 The AI uses the minimax algorithm with alpha-beta pruning to make the best move. The depth of the tree can be changed in the main.py file.
+
+## Screenshots
+![Screenshot of the game](https://github.com/hoainam1401/Computer_Science_Project/blob/main/BcSProject/preview/Screenshot.png)
