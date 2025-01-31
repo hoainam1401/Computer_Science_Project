@@ -18,7 +18,7 @@ def get_row_col_from_mouse(pos):
     return row, col
 
 
-def main(mode):
+def main(mode, depth):
     run = True
     clock = pygame.time.Clock()
     game = Game(WIN)
@@ -27,7 +27,7 @@ def main(mode):
         clock.tick(FPS)
 
         if mode == "cpu" and game.turn == GREEN:
-            value, new_board = minimax(game.get_board(), 4, GREEN, game)
+            value, new_board = minimax(game.get_board(), depth, GREEN, game)
             game.ai_move(new_board)
 
         if game.winner() is not None:
@@ -43,11 +43,21 @@ def main(mode):
                 game.select(row, col)
 
         game.update()
+
     pygame.quit()
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2 or sys.argv[1] not in ["pvp", "cpu"]:
-        print("Usage: main.py [pvp|cpu]")
+    if len(sys.argv) < 2 or sys.argv[1] not in ["pvp", "cpu"]:
+        print("Usage: main.py [pvp|cpu] [depth]")
+    elif sys.argv[1] == "cpu" and len(sys.argv) == 2:
+        mode = sys.argv[1]
+        depth = 1  # Default depth is 1 if not provided
+        main(mode, depth)
+    elif sys.argv[1] == "cpu" and len(sys.argv) == 3:
+        mode = sys.argv[1]
+        depth = int(sys.argv[2])
+        main(mode, depth)
     else:
-        main(sys.argv[1])
+        mode = sys.argv[1]
+        main(mode, 1)  # Default depth is 1 if not provided

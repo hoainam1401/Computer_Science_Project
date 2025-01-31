@@ -12,8 +12,10 @@ This was made using the Pygame library and OOP.
 3. Run the game using the following command:
 ``` python main.py [cpu|pvp]```. The argument cpu is used to play against the computer and pvp is used to play against another player.
 
-## SinglePlayer
-The AI uses the minimax algorithm with alpha-beta pruning to make the best move. The depth of the tree can be changed in the main.py file.
+## SinglePlayer 
+The AI uses the minimax algorithm with alpha-beta pruning to make the best move. The depth of the tree can be changed when comment in terminal with the following command:
+``` python main.py cpu argument```. The argument is the depth of the tree. The default value is 1.
+Depth tree is the number of moves the AI can see ahead. The higher the depth, the better the AI plays but it also takes more time to make a move. 
 
 ## Screenshots
 ![Screenshot of the game](https://github.com/hoainam1401/Computer_Science_Project/blob/main/BcSProject/preview/Screenshot.png)
