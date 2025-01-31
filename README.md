@@ -18,4 +18,4 @@ The AI uses the minimax algorithm with alpha-beta pruning to make the best move.
 Depth tree is the number of moves the AI can see ahead. The higher the depth, the better the AI plays but it also takes more time to make a move. 
 
 ## Screenshots
-![Screenshot of the game](https://github.com/hoainam1401/Computer_Science_Project/blob/main/BcSProject/preview/Screenshot.png)
+![Screenshot of the game](https://github.com/hoainam1401/Computer_Science_Project/blob/main/preview/Screenshot.png)
