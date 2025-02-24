@@ -41,7 +41,7 @@ def draw_winner(text):
         text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2)
     )
     pygame.display.update()
-    pygame.time.delay(3000)
+    pygame.time.delay(10000)
 
 
 def main(mode, depth):
