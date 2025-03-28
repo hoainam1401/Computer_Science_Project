@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from checkers.constants import (PINK,  # Updated to use the correct module path
-                                SQUARE_SIZE)
+from checkers.constants import PINK  # Updated to use the correct module path
+from checkers.constants import SQUARE_SIZE
 from checkers.piece import Piece  # Updated to use the correct module path
 
 
