@@ -1,7 +1,7 @@
 import unittest
 
 from checkers.board import Board
-from checkers.constants import GREEN, PURPLE
+from checkers.constants import BLUE, RED
 from checkers.piece import Piece
 
 
@@ -10,20 +10,20 @@ class TestBoard(unittest.TestCase):
         self.board = Board()
 
     def test_initial_setup(self):
-        green_pieces = sum(
+        blue_pieces = sum(
             1
             for row in self.board.board
             for piece in row
-            if piece != 0 and piece.color == GREEN
+            if piece != 0 and piece.color == BLUE
         )
-        purple_pieces = sum(
+        red_pieces = sum(
             1
             for row in self.board.board
             for piece in row
-            if piece != 0 and piece.color == PURPLE
+            if piece != 0 and piece.color == RED
         )
-        self.assertEqual(green_pieces, 12)
-        self.assertEqual(purple_pieces, 12)
+        self.assertEqual(blue_pieces, 12)
+        self.assertEqual(red_pieces, 12)
 
     def test_move_piece(self):
         piece = self.board.get_piece(2, 1)
@@ -40,17 +40,17 @@ class TestBoard(unittest.TestCase):
         piece = self.board.get_piece(2, 1)
         self.board.remove([piece])
         self.assertEqual(self.board.get_piece(2, 1), 0)
-        if piece.color == PURPLE:
-            self.assertEqual(self.board.purple_left, 11)
-        elif piece.color == GREEN:
-            self.assertEqual(self.board.green_left, 11)
+        if piece.color == RED:
+            self.assertEqual(self.board.red_left, 11)
+        elif piece.color == BLUE:
+            self.assertEqual(self.board.blue_left, 11)
 
     def test_winner(self):
-        self.board.purple_left = 0
-        self.assertEqual(self.board.winner(), GREEN)
-        self.board.green_left = 0
-        self.board.purple_left = 12  # Reset purple pieces
-        self.assertEqual(self.board.winner(), PURPLE)
+        self.board.red_left = 0
+        self.assertEqual(self.board.winner(), BLUE)
+        self.board.blue_left = 0
+        self.board.red_left = 12  # Reset red pieces
+        self.assertEqual(self.board.winner(), RED)
 
     def test_valid_moves(self):
         piece = self.board.get_piece(2, 1)

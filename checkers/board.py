@@ -1,6 +1,18 @@
 import pygame
 
-from .constants import COLS, COMMENT, GRAY, GREEN, PURPLE, ROWS, SQUARE_SIZE
+from .constants import (
+    BOARD_BORDER,
+    COLS,
+    DARK_SQUARE,
+    HEADER_HEIGHT,
+    LIGHT_SQUARE,
+    RED,
+    BLUE,
+    ROWS,
+    SQUARE_SIZE,
+    WIDTH,
+    HEIGHT,
+)
 from .piece import Piece
 
 
@@ -8,25 +20,31 @@ class Board:
 
     def __init__(self):
         self.board = []
-        self.purple_left = self.green_left = 12
-        self.purple_kings = self.green_kings = 0
+        self.red_left = self.blue_left = 12
+        self.red_kings = self.blue_kings = 0
         self.create_board()
 
     def draw_squares(self, win):
-        win.fill(COMMENT)
+        win.fill(LIGHT_SQUARE)
+        # Draw board border
+        pygame.draw.rect(win, BOARD_BORDER, (0, HEADER_HEIGHT, WIDTH, HEIGHT - HEADER_HEIGHT), 3)
+        
         for row in range(ROWS):
-            for col in range(row % 2, COLS, 2):
-                pygame.draw.rect(
-                    win,
-                    GRAY,
-                    (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE),
-                )
+            for col in range(COLS):
+                y = row * SQUARE_SIZE + HEADER_HEIGHT
+                x = col * SQUARE_SIZE
+                
+                # Checkerboard pattern
+                if (row + col) % 2 == 1:
+                    pygame.draw.rect(win, DARK_SQUARE, (x, y, SQUARE_SIZE, SQUARE_SIZE))
+                else:
+                    pygame.draw.rect(win, LIGHT_SQUARE, (x, y, SQUARE_SIZE, SQUARE_SIZE))
 
     def evaluate(self):
         return (
-            self.green_left
-            - self.purple_left
-            + (self.green_kings - self.purple_kings) * 0.5
+            self.blue_left
+            - self.red_left
+            + (self.blue_kings - self.red_kings) * 0.5
         )
 
     def get_all_pieces(self, color):
@@ -46,10 +64,10 @@ class Board:
 
         if row == ROWS - 1 or row == 0:
             piece.make_king()
-            if piece.color == GREEN:
-                self.green_kings += 1
+            if piece.color == BLUE:
+                self.blue_kings += 1
             else:
-                self.purple_kings += 1
+                self.red_kings += 1
 
     def get_piece(self, row, col):
         return self.board[row][col]
@@ -60,9 +78,9 @@ class Board:
             for col in range(COLS):
                 if col % 2 == ((row + 1) % 2):
                     if row < 3:
-                        self.board[row].append(Piece(row, col, GREEN))
+                        self.board[row].append(Piece(row, col, BLUE))
                     elif row > 4:
-                        self.board[row].append(Piece(row, col, PURPLE))
+                        self.board[row].append(Piece(row, col, RED))
                     else:
                         self.board[row].append(0)
                 else:
@@ -80,16 +98,16 @@ class Board:
         for piece in pieces:
             self.board[piece.row][piece.col] = 0
             if piece != 0:
-                if piece.color == PURPLE:
-                    self.purple_left -= 1
+                if piece.color == RED:
+                    self.red_left -= 1
                 else:
-                    self.green_left -= 1
+                    self.blue_left -= 1
 
     def winner(self):
-        if self.purple_left <= 0:
-            return GREEN
-        elif self.green_left <= 0:
-            return PURPLE
+        if self.red_left <= 0:
+            return BLUE
+        elif self.blue_left <= 0:
+            return RED
 
         return None
 
@@ -99,14 +117,14 @@ class Board:
         right = piece.col + 1
         row = piece.row
 
-        if piece.color == PURPLE or piece.king:
+        if piece.color == RED or piece.king:
             moves.update(
                 self._traverse_left(row - 1, max(row - 3, -1), -1, piece.color, left)
             )
             moves.update(
                 self._traverse_right(row - 1, max(row - 3, -1), -1, piece.color, right)
             )
-        if piece.color == GREEN or piece.king:
+        if piece.color == BLUE or piece.king:
             moves.update(
                 self._traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left)
             )

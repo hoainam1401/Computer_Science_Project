@@ -1,11 +1,11 @@
 import pygame
 
-from .constants import CROWN, PINK, SQUARE_SIZE
+from .constants import CROWN, HEADER_HEIGHT, PIECE_OUTLINE, SQUARE_SIZE
 
 
 class Piece:
-    PADDING = 20
-    OUTLINE = 3
+    PADDING = 15
+    OUTLINE = 4
 
     def __init__(self, row, col, color):
         self.row = row
@@ -18,15 +18,36 @@ class Piece:
 
     def calc_pos(self):
         self.x = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
-        self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2
+        self.y = SQUARE_SIZE * self.row + SQUARE_SIZE // 2 + HEADER_HEIGHT
 
     def make_king(self):
         self.king = True
 
     def draw(self, win):
         radius = SQUARE_SIZE // 2 - self.PADDING
-        pygame.draw.circle(win, PINK, (self.x, self.y), radius + self.OUTLINE)
+        
+        # Draw shadow for depth effect
+        shadow_offset = 3
+        shadow_color = (0, 0, 0, 50)
+        shadow_surface = pygame.Surface((radius * 2 + 10, radius * 2 + 10), pygame.SRCALPHA)
+        pygame.draw.circle(shadow_surface, shadow_color, 
+                          (radius + 5, radius + 5), radius + self.OUTLINE)
+        win.blit(shadow_surface, (self.x - radius - 5 + shadow_offset, 
+                                  self.y - radius - 5 + shadow_offset))
+        
+        # Draw outline (white border)
+        pygame.draw.circle(win, PIECE_OUTLINE, (self.x, self.y), radius + self.OUTLINE)
+        
+        # Draw piece with gradient-like effect (inner darker circle)
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
+        
+        # Add highlight for 3D effect
+        highlight_color = tuple(min(c + 40, 255) for c in self.color)
+        pygame.draw.circle(win, highlight_color, 
+                          (self.x - radius // 4, self.y - radius // 4), 
+                          radius // 3)
+        
+        # Draw crown for kings
         if self.king:
             win.blit(
                 CROWN,

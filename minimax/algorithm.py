@@ -2,8 +2,8 @@ from copy import deepcopy
 
 import pygame
 
-PURPLE = (189, 147, 249)
-GREEN = (80, 250, 123)
+RED = (220, 53, 69)
+BLUE = (13, 110, 253)
 
 
 def minimax(position, depth, max_player, game):
@@ -13,7 +13,7 @@ def minimax(position, depth, max_player, game):
     if max_player:
         maxEval = float("-inf")
         best_move = None
-        for move in get_all_moves(position, GREEN, game):
+        for move in get_all_moves(position, BLUE, game):
             evaluation = minimax(move, depth - 1, False, game)[0]
             maxEval = max(maxEval, evaluation)
             if maxEval == evaluation:
@@ -23,7 +23,7 @@ def minimax(position, depth, max_player, game):
     else:
         minEval = float("inf")
         best_move = None
-        for move in get_all_moves(position, PURPLE, game):
+        for move in get_all_moves(position, RED, game):
             evaluation = minimax(move, depth - 1, True, game)[0]
             minEval = min(minEval, evaluation)
             if minEval == evaluation:
