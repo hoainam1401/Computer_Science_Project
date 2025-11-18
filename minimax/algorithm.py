@@ -2,8 +2,7 @@ from copy import deepcopy
 
 import pygame
 
-RED = (220, 53, 69)
-BLUE = (13, 110, 253)
+from checkers.constants import BLUE, RED
 
 
 def minimax(position, depth, max_player, game):

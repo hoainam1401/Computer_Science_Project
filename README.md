@@ -1,21 +1,88 @@
 # Computer_Science_Project
- Checkers game in Python
+Checkers game in Python with AI
 
 ## About
-This is a simple checkers game implemented in Python. The game is played on a 8x8 board and the players can only move diagonally. The game is played between two players and the player who captures all the pieces of the opponent wins the game.
-This was made using the Pygame library and OOP.
+This is a checkers game implemented in Python using Pygame and Object-Oriented Programming. The game features:
+- 8x8 board with diagonal movement mechanics
+- Two-player mode (PvP)
+- Single-player mode against AI
+- Draw detection when no valid moves available
+- King pieces with enhanced movement
+- Modern purple and green color scheme
 
-## Installation and usage
+## Installation and Usage
 1. Clone the repository
-2. Install the required libraries using the following command:
-``` pip install -r requirements.txt ```
-3. Run the game using the following command:
-``` python main.py [cpu|pvp]```. The argument cpu is used to play against the computer and pvp is used to play against another player.
+```bash
+git clone https://github.com/hoainam1401/Computer_Science_Project.git
+cd Computer_Science_Project
+```
 
-## SinglePlayer 
-The AI uses the minimax algorithm with alpha-beta pruning to make the best move. The depth of the tree can be changed when comment in terminal with the following command:
-``` python main.py cpu argument```. The argument is the depth of the tree. The default value is 1.
-Depth tree is the number of moves the AI can see ahead. The higher the depth, the better the AI plays but it also takes more time to make a move. 
+2. Install the required libraries:
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the game:
+- **Player vs Player**: `python main.py pvp`
+- **Player vs AI**: `python main.py cpu [depth]`
+
+## Game Modes
+
+### Two Player (PvP)
+Play against another human player locally. Purple pieces move first, followed by green pieces.
+
+### Single Player (vs AI)
+The AI uses the minimax algorithm to make optimal moves. You can adjust the AI difficulty by changing the search depth:
+
+```bash
+python main.py cpu 3
+```
+
+- **Depth 1** (default): Fast, makes basic moves
+- **Depth 3-4**: Moderate difficulty, thinks several moves ahead
+- **Depth 5+**: Challenging, but slower to compute
+
+The depth parameter controls how many moves ahead the AI calculates. Higher depth = smarter AI but longer thinking time.
+
+## Game Rules
+- **Purple pieces** start at the bottom, **Green pieces** at the top
+- Pieces move diagonally forward one square
+- Capture opponent pieces by jumping over them
+- Pieces become **Kings** when reaching the opposite end (shown with crown)
+- Kings can move diagonally in any direction
+- **Win conditions**: 
+  - Capture all opponent pieces
+  - Opponent has no valid moves (draw)
+
+## Testing
+Run the test suite:
+```bash
+python -m unittest discover test
+```
+
+Run specific test file:
+```bash
+python -m unittest test.test_board
+```
+
+## Project Structure
+```
+checkers/          # Core game logic
+├── board.py       # Board management and move validation
+├── game.py        # Game state and UI rendering
+├── piece.py       # Piece class with rendering
+└── constants.py   # Colors, dimensions, and assets
+
+minimax/           # AI implementation
+└── algorithm.py   # Minimax with alpha-beta pruning
+
+test/              # Unit tests
+├── test_board.py  # Board logic tests
+├── test_piece.py  # Piece tests
+└── test_ai.py     # AI algorithm tests
+
+main.py            # Entry point and game loop
+```
 
 ## Screenshots
 ![Screenshot of the game](https://github.com/hoainam1401/Computer_Science_Project/blob/main/preview/Screenshot.png)

@@ -39,6 +39,12 @@ class Game:
     def winner(self):
         return self.board.winner()
 
+    def is_draw(self):
+        # Check if current player has no valid moves
+        if not self.board.has_valid_moves(self.turn):
+            return True
+        return False
+
     def reset(self):
         self._init()
         
@@ -53,7 +59,7 @@ class Game:
         self.win.blit(title, (20, 15))
         
         # Draw current turn indicator
-        turn_text = "Red's Turn" if self.turn == RED else "Blue's Turn"
+        turn_text = "Purple's Turn" if self.turn == RED else "Green's Turn"
         turn_color = RED if self.turn == RED else BLUE
         
         # Draw turn indicator circle
@@ -64,7 +70,7 @@ class Game:
         self.win.blit(turn_label, (WIDTH - 155, 25))
         
         # Draw score
-        score_text = f"Red: {self.board.red_left}  Blue: {self.board.blue_left}"
+        score_text = f"Purple: {self.board.red_left}  Green: {self.board.blue_left}"
         score_label = self.font_small.render(score_text, True, TEXT_COLOR)
         self.win.blit(score_label, (20, 60))
         

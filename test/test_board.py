@@ -58,6 +58,24 @@ class TestBoard(unittest.TestCase):
         expected_moves = {(3, 0): [], (3, 2): []}
         self.assertEqual(valid_moves, expected_moves)
 
+    def test_has_valid_moves(self):
+        # Test that pieces have valid moves at the start
+        self.assertTrue(self.board.has_valid_moves(RED))
+        self.assertTrue(self.board.has_valid_moves(BLUE))
+
+    def test_no_valid_moves_draw(self):
+        # Create a board with no valid moves for RED
+        self.board.board = [[0 for _ in range(8)] for _ in range(8)]
+        self.board.red_left = 1
+        self.board.blue_left = 1
+        # Place red piece in corner with no moves
+        self.board.board[0][0] = Piece(0, 0, RED)
+        # Place blue piece blocking
+        self.board.board[1][1] = Piece(1, 1, BLUE)
+        
+        # Red piece in corner has no valid moves
+        self.assertFalse(self.board.has_valid_moves(RED))
+
 
 if __name__ == "__main__":
     unittest.main()

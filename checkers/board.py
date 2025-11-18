@@ -111,6 +111,14 @@ class Board:
 
         return None
 
+    def has_valid_moves(self, color):
+        pieces = self.get_all_pieces(color)
+        for piece in pieces:
+            valid_moves = self.get_valid_moves(piece)
+            if valid_moves:
+                return True
+        return False
+
     def get_valid_moves(self, piece):
         moves = {}
         left = piece.col - 1

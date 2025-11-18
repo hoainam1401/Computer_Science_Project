@@ -35,10 +35,13 @@ def draw_winner(text):
     font_small = pygame.font.SysFont("Arial", 30)
     
     # Determine winner color
-    if "Red" in text:
+    if "Purple" in text:
         winner_color = RED
-    else:
+    elif "Green" in text:
         winner_color = BLUE
+    else:
+        # Draw - use gray color
+        winner_color = (150, 150, 150)
     
     # Draw winner box
     box_width = 600
@@ -94,12 +97,18 @@ def main(mode, depth):
             value, new_board = minimax(game.get_board(), depth, BLUE, game)
             game.ai_move(new_board)
 
+        # Check for draw first
+        if game.is_draw():
+            draw_winner("Draw!")
+            run = False
+        
+        # Then check for winner
         winner = game.winner()
         if winner is not None:
             if winner == BLUE:
-                draw_winner("Blue Wins!")
+                draw_winner("Green Wins!")
             else:
-                draw_winner("Red Wins!")
+                draw_winner("Purple Wins!")
             run = False
 
         for event in pygame.event.get():
