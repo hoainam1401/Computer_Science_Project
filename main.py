@@ -2,7 +2,8 @@ import sys
 
 import pygame
 
-from checkers.constants import BLUE, HEIGHT, RED, SQUARE_SIZE, WIDTH, HEADER_HEIGHT
+from checkers.constants import (BLUE, HEADER_HEIGHT, HEIGHT, RED, SQUARE_SIZE,
+                                WIDTH)
 from checkers.game import Game
 from minimax.algorithm import minimax
 
@@ -29,11 +30,11 @@ def draw_winner(text):
     overlay.set_alpha(200)
     overlay.fill((0, 0, 0))
     WIN.blit(overlay, (0, 0))
-    
+
     # Winner text styling
     font_large = pygame.font.SysFont("Arial", 80, bold=True)
     font_small = pygame.font.SysFont("Arial", 30)
-    
+
     # Determine winner color
     if "Purple" in text:
         winner_color = RED
@@ -42,20 +43,26 @@ def draw_winner(text):
     else:
         # Draw - use gray color
         winner_color = (150, 150, 150)
-    
+
     # Draw winner box
     box_width = 600
     box_height = 300
     box_x = WIDTH // 2 - box_width // 2
     box_y = HEIGHT // 2 - box_height // 2
-    
+
     # Draw shadow
-    pygame.draw.rect(WIN, (0, 0, 0), (box_x + 5, box_y + 5, box_width, box_height), border_radius=20)
-    
+    pygame.draw.rect(
+        WIN, (0, 0, 0), (box_x + 5, box_y + 5, box_width, box_height), border_radius=20
+    )
+
     # Draw main box
-    pygame.draw.rect(WIN, (255, 255, 255), (box_x, box_y, box_width, box_height), border_radius=20)
-    pygame.draw.rect(WIN, winner_color, (box_x, box_y, box_width, box_height), 8, border_radius=20)
-    
+    pygame.draw.rect(
+        WIN, (255, 255, 255), (box_x, box_y, box_width, box_height), border_radius=20
+    )
+    pygame.draw.rect(
+        WIN, winner_color, (box_x, box_y, box_width, box_height), 8, border_radius=20
+    )
+
     # Draw confetti-like decorations
     for i in range(20):
         color = RED if i % 2 == 0 else BLUE
@@ -63,7 +70,7 @@ def draw_winner(text):
         conf_y = box_y + 20
         pygame.draw.circle(WIN, color, (conf_x, conf_y), 5)
         pygame.draw.circle(WIN, color, (conf_x, box_y + box_height - 20), 5)
-    
+
     # Draw crown icon (larger)
     crown_text = "👑"
     try:
@@ -72,15 +79,15 @@ def draw_winner(text):
         WIN.blit(crown_surface, (WIDTH // 2 - 30, box_y + 50))
     except:
         pass
-    
+
     # Draw winner text
     winner_text = font_large.render(text, True, winner_color)
     WIN.blit(winner_text, (WIDTH // 2 - winner_text.get_width() // 2, box_y + 130))
-    
+
     # Draw subtitle
     subtitle = font_small.render("Game Over", True, (100, 100, 100))
     WIN.blit(subtitle, (WIDTH // 2 - subtitle.get_width() // 2, box_y + 220))
-    
+
     pygame.display.update()
     pygame.time.delay(5000)
 
@@ -101,7 +108,7 @@ def main(mode, depth):
         if game.is_draw():
             draw_winner("Draw!")
             run = False
-        
+
         # Then check for winner
         winner = game.winner()
         if winner is not None:

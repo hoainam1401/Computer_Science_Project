@@ -2,17 +2,9 @@ import pygame
 
 from checkers.board import Board
 
-from .constants import (
-    BLUE,
-    RED,
-    VALID_MOVE,
-    SELECTED_HIGHLIGHT,
-    SQUARE_SIZE,
-    HEADER_HEIGHT,
-    HEADER_BG,
-    TEXT_COLOR,
-    WIDTH,
-)
+from .constants import (BLUE, HEADER_BG, HEADER_HEIGHT, RED,
+                        SELECTED_HIGHLIGHT, SQUARE_SIZE, TEXT_COLOR,
+                        VALID_MOVE, WIDTH)
 
 
 class Game:
@@ -47,42 +39,44 @@ class Game:
 
     def reset(self):
         self._init()
-        
+
     def draw_header(self):
         # Draw header background
         pygame.draw.rect(self.win, HEADER_BG, (0, 0, WIDTH, HEADER_HEIGHT))
-        pygame.draw.line(self.win, TEXT_COLOR, (0, HEADER_HEIGHT - 2), 
-                        (WIDTH, HEADER_HEIGHT - 2), 3)
-        
+        pygame.draw.line(
+            self.win, TEXT_COLOR, (0, HEADER_HEIGHT - 2), (WIDTH, HEADER_HEIGHT - 2), 3
+        )
+
         # Draw title
         title = self.font_large.render("CHECKERS", True, TEXT_COLOR)
         self.win.blit(title, (20, 15))
-        
+
         # Draw current turn indicator
         turn_text = "Purple's Turn" if self.turn == RED else "Green's Turn"
         turn_color = RED if self.turn == RED else BLUE
-        
+
         # Draw turn indicator circle
         pygame.draw.circle(self.win, turn_color, (WIDTH - 180, 35), 15)
         pygame.draw.circle(self.win, TEXT_COLOR, (WIDTH - 180, 35), 15, 2)
-        
+
         turn_label = self.font_small.render(turn_text, True, TEXT_COLOR)
         self.win.blit(turn_label, (WIDTH - 155, 25))
-        
+
         # Draw score
         score_text = f"Purple: {self.board.red_left}  Green: {self.board.blue_left}"
         score_label = self.font_small.render(score_text, True, TEXT_COLOR)
         self.win.blit(score_label, (20, 60))
-        
+
     def draw_selected_piece(self):
         if self.selected:
             row, col = self.selected.row, self.selected.col
             x = col * SQUARE_SIZE
             y = row * SQUARE_SIZE + HEADER_HEIGHT
-            
+
             # Draw animated selection border
-            pygame.draw.rect(self.win, SELECTED_HIGHLIGHT, 
-                           (x, y, SQUARE_SIZE, SQUARE_SIZE), 5)
+            pygame.draw.rect(
+                self.win, SELECTED_HIGHLIGHT, (x, y, SQUARE_SIZE, SQUARE_SIZE), 5
+            )
 
     def select(self, row, col):
         if self.selected:
@@ -118,7 +112,7 @@ class Game:
             # Draw larger, more visible valid move indicators
             center_x = col * SQUARE_SIZE + SQUARE_SIZE // 2
             center_y = row * SQUARE_SIZE + SQUARE_SIZE // 2 + HEADER_HEIGHT
-            
+
             # Draw outer glow
             pygame.draw.circle(self.win, VALID_MOVE, (center_x, center_y), 20, 3)
             # Draw inner circle

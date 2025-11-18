@@ -1,18 +1,7 @@
 import pygame
 
-from .constants import (
-    BOARD_BORDER,
-    COLS,
-    DARK_SQUARE,
-    HEADER_HEIGHT,
-    LIGHT_SQUARE,
-    RED,
-    BLUE,
-    ROWS,
-    SQUARE_SIZE,
-    WIDTH,
-    HEIGHT,
-)
+from .constants import (BLUE, BOARD_BORDER, COLS, DARK_SQUARE, HEADER_HEIGHT,
+                        HEIGHT, LIGHT_SQUARE, RED, ROWS, SQUARE_SIZE, WIDTH)
 from .piece import Piece
 
 
@@ -27,25 +16,25 @@ class Board:
     def draw_squares(self, win):
         win.fill(LIGHT_SQUARE)
         # Draw board border
-        pygame.draw.rect(win, BOARD_BORDER, (0, HEADER_HEIGHT, WIDTH, HEIGHT - HEADER_HEIGHT), 3)
-        
+        pygame.draw.rect(
+            win, BOARD_BORDER, (0, HEADER_HEIGHT, WIDTH, HEIGHT - HEADER_HEIGHT), 3
+        )
+
         for row in range(ROWS):
             for col in range(COLS):
                 y = row * SQUARE_SIZE + HEADER_HEIGHT
                 x = col * SQUARE_SIZE
-                
+
                 # Checkerboard pattern
                 if (row + col) % 2 == 1:
                     pygame.draw.rect(win, DARK_SQUARE, (x, y, SQUARE_SIZE, SQUARE_SIZE))
                 else:
-                    pygame.draw.rect(win, LIGHT_SQUARE, (x, y, SQUARE_SIZE, SQUARE_SIZE))
+                    pygame.draw.rect(
+                        win, LIGHT_SQUARE, (x, y, SQUARE_SIZE, SQUARE_SIZE)
+                    )
 
     def evaluate(self):
-        return (
-            self.blue_left
-            - self.red_left
-            + (self.blue_kings - self.red_kings) * 0.5
-        )
+        return self.blue_left - self.red_left + (self.blue_kings - self.red_kings) * 0.5
 
     def get_all_pieces(self, color):
         pieces = []
